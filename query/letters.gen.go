@@ -15,6 +15,8 @@ import (
 	"gorm.io/gen/field"
 
 	"gorm.io/plugin/dbresolver"
+
+	"github.com/max-hoffman/gorm-dolt/model"
 )
 
 func newLetter(db *gorm.DB, opts ...gen.DOOption) letter {
@@ -25,12 +27,10 @@ func newLetter(db *gorm.DB, opts ...gen.DOOption) letter {
 
 	tableName := _letter.letterDo.TableName()
 	_letter.ALL = field.NewAsterisk(tableName)
-	_letter.ID = field.NewInt32(tableName, "id")
 	_letter.Letter = field.NewString(tableName, "letter")
-	_letter.Date = field.NewTime(tableName, "date")
-	_letter.Lang = field.NewString(tableName, "lang")
-	_letter.Country = field.NewString(tableName, "country")
-	_letter.Region = field.NewString(tableName, "region")
+	_letter.CreatedAt = field.NewTime(tableName, "createdAt")
+	_letter.CountryID = field.NewString(tableName, "countryID")
+	_letter.ID = field.NewString(tableName, "id")
 
 	_letter.fillFieldMap()
 
@@ -40,13 +40,11 @@ func newLetter(db *gorm.DB, opts ...gen.DOOption) letter {
 type letter struct {
 	letterDo
 
-	ALL     field.Asterisk
-	ID      field.Int32
-	Letter  field.String
-	Date    field.Time
-	Lang    field.String
-	Country field.String
-	Region  field.String
+	ALL       field.Asterisk
+	Letter    field.String
+	CreatedAt field.Time
+	CountryID field.String
+	ID        field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -63,12 +61,10 @@ func (l letter) As(alias string) *letter {
 
 func (l *letter) updateTableName(table string) *letter {
 	l.ALL = field.NewAsterisk(table)
-	l.ID = field.NewInt32(table, "id")
 	l.Letter = field.NewString(table, "letter")
-	l.Date = field.NewTime(table, "date")
-	l.Lang = field.NewString(table, "lang")
-	l.Country = field.NewString(table, "country")
-	l.Region = field.NewString(table, "region")
+	l.CreatedAt = field.NewTime(table, "createdAt")
+	l.CountryID = field.NewString(table, "countryID")
+	l.ID = field.NewString(table, "id")
 
 	l.fillFieldMap()
 
@@ -85,13 +81,11 @@ func (l *letter) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (l *letter) fillFieldMap() {
-	l.fieldMap = make(map[string]field.Expr, 6)
-	l.fieldMap["id"] = l.ID
+	l.fieldMap = make(map[string]field.Expr, 4)
 	l.fieldMap["letter"] = l.Letter
-	l.fieldMap["date"] = l.Date
-	l.fieldMap["lang"] = l.Lang
-	l.fieldMap["country"] = l.Country
-	l.fieldMap["region"] = l.Region
+	l.fieldMap["createdAt"] = l.CreatedAt
+	l.fieldMap["countryID"] = l.CountryID
+	l.fieldMap["id"] = l.ID
 }
 
 func (l letter) clone(db *gorm.DB) letter {

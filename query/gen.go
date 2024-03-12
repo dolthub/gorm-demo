@@ -16,34 +16,39 @@ import (
 )
 
 var (
-	Q      = new(Query)
-	Letter *letter
+	Q       = new(Query)
+	Country *country
+	Letter  *letter
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	Country = &Q.Country
 	Letter = &Q.Letter
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:     db,
-		Letter: newLetter(db, opts...),
+		db:      db,
+		Country: newCountry(db, opts...),
+		Letter:  newLetter(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Letter letter
+	Country country
+	Letter  letter
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:     db,
-		Letter: q.Letter.clone(db),
+		db:      db,
+		Country: q.Country.clone(db),
+		Letter:  q.Letter.clone(db),
 	}
 }
 
@@ -57,18 +62,21 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:     db,
-		Letter: q.Letter.replaceDB(db),
+		db:      db,
+		Country: q.Country.replaceDB(db),
+		Letter:  q.Letter.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Letter ILetterDo
+	Country ICountryDo
+	Letter  ILetterDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Letter: q.Letter.WithContext(ctx),
+		Country: q.Country.WithContext(ctx),
+		Letter:  q.Letter.WithContext(ctx),
 	}
 }
 

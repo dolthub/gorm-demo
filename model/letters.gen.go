@@ -12,12 +12,11 @@ const TableNameLetter = "letters"
 
 // Letter mapped from table <letters>
 type Letter struct {
-	ID      int32     `gorm:"column:id;primaryKey" json:"id"`
-	Letter  string    `gorm:"column:letter;not null" json:"letter"`
-	Date    time.Time `gorm:"column:date" json:"date"`
-	Lang    string    `gorm:"column:lang" json:"lang"`
-	Country string    `gorm:"column:country" json:"country"`
-	Region  string    `gorm:"column:region" json:"region"`
+	ID        string    `gorm:"column:id;primaryKey;default:uuid()" json:"id"`
+	Letter    string    `gorm:"column:letter;not null" json:"letter"`
+	CreatedAt time.Time `gorm:"column:createdAt" json:"createdAt"`
+	CountryID string    `gorm:"column:countryID;index:countryID,priority:1" json:"countryID"`
+	Country  Country    `gorm:"foreignkey:CountryId;references:Id"`
 }
 
 // TableName Letter's table name
