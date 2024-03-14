@@ -24,5 +24,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	getOneSchemaDiff(db)
+	readFirstLetter(db)
+	//insertLetter(db)
+	//updateLetter(db)
+	//chainUpdateLetter(db)
+	//testTicker(db)
+	//generateModels(db)
+	//getLastCommit(db)
+	//getOneDiff(db)
+	//getOneSchemaDiff(db)
 }
