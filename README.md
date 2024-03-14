@@ -1,4 +1,4 @@
-Small demo repo for GORM interacting with a Dolt database.
+Small demo repo for GORM interacting with a Dolt database. [This blog](https://www.dolthub.com/blog/2024-03-15-gorm-with-dolt) describes how to use this demo.
 
 # Setup
 
